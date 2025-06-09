@@ -1,0 +1,94 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, buttonVariants } from "~/components/ui/button";
+import z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { NavLink } from "react-router";
+import { cn } from "~/lib/utils";
+
+const EmailForm = () => {
+  const formSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 w-full">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Your email address"
+                  type="email"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input placeholder="Your password" type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex items-center justify-start -mt-1.5">
+          <p className="text-muted-foreground text-sm">
+            Forgot your password?{" "}
+            <NavLink
+              to="/forgot-password"
+              className={cn(
+                buttonVariants({
+                  variant: "ghost-link",
+                }),
+              )}
+            >
+              Click here
+            </NavLink>
+          </p>
+        </div>
+
+        <div className="w-full flex items-center justify-end">
+          <Button type="submit">Sign In</Button>
+        </div>
+      </form>
+    </Form>
+  );
+};
+
+export default EmailForm;
