@@ -4,14 +4,14 @@ import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 import OAuthForm from "./_components/OAuthForm";
 
-const Auth = () => {
+const AuthLogin = () => {
   return (
     <main className="flex flex-1 h-full">
       <div className="flex-1 flex flex-col items-center justify-between">
         <div />
         <div className="max-w-lg w-full">
           <h1 className="text-xl font-medium text-foreground">
-            Welcome to OpenCatchup!
+            Login to OpenCatchup!
           </h1>
           <EmailForm />
           <OAuthForm />
@@ -66,4 +66,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default AuthLogin;

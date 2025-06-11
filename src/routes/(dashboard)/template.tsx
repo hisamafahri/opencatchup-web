@@ -5,7 +5,7 @@ const DashboardTemplate = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    navigate("/auth");
+    navigate("/login");
   }, []);
 
   return (
