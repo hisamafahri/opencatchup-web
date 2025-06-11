@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import Turnstile from "react-turnstile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, buttonVariants } from "~/components/ui/button";
 import z from "zod";
@@ -15,12 +16,12 @@ import { NavLink } from "react-router";
 import { cn } from "~/lib/utils";
 import { ArrowRight } from "lucide-react";
 
-const EmailForm = () => {
-  const formSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(8),
-  });
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
+const EmailForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -84,6 +85,13 @@ const EmailForm = () => {
             Forgot Password?
           </NavLink>
         </div>
+
+        <Turnstile
+          sitekey={import.meta.env.VITE_PUBLIC_TURNSTILE_KEY}
+          onVerify={(token) => {
+            console.log("[TURNSTILE]", token);
+          }}
+        />
 
         <div className="w-full flex items-center justify-end mt-5">
           <Button type="submit" className="group w-full">
