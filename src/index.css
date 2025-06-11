@@ -6,6 +6,8 @@
 
 @theme {
   --font-sans: "Inter Tight", sans-serif;
+
+  --animate-custom-pulse: custom-pulse 2s ease-in-out infinite;
 }
 
 @theme inline {
@@ -121,5 +123,15 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+  }
+}
+
+@keyframes custom-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
   }
 }

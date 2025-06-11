@@ -2,17 +2,33 @@ import { NavLink } from "react-router";
 import EmailForm from "./_components/EmailForm";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
+import OAuthForm from "./_components/OAuthForm";
 
 const Auth = () => {
   return (
     <main className="flex flex-1 h-full">
       <div className="flex-1 flex flex-col items-center justify-between">
         <div />
-        <div className="max-w-xl w-full">
-          <h1 className="text-xl font-medium mb-4 text-foreground">
+        <div className="max-w-lg w-full">
+          <h1 className="text-xl font-medium text-foreground">
             Welcome to OpenCatchup!
           </h1>
           <EmailForm />
+          <OAuthForm />
+          <p className="text-muted-foreground text-sm mt-8 text-center">
+            Don't have an account?{" "}
+            <NavLink
+              to="/register"
+              className={cn(
+                "text-muted-foreground",
+                buttonVariants({
+                  variant: "ghost-link",
+                }),
+              )}
+            >
+              Register
+            </NavLink>
+          </p>
         </div>
 
         <footer className="text-xs text-muted-foreground py-6 max-w-xl w-full">

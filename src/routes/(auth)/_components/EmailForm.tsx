@@ -13,6 +13,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { NavLink } from "react-router";
 import { cn } from "~/lib/utils";
+import { ArrowRight } from "lucide-react";
 
 const EmailForm = () => {
   const formSchema = z.object({
@@ -34,7 +35,10 @@ const EmailForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 w-full">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-3 w-full mt-4"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -67,24 +71,25 @@ const EmailForm = () => {
           )}
         />
 
-        <div className="flex items-center justify-start -mt-1.5">
-          <p className="text-muted-foreground text-sm">
-            Forgot your password?{" "}
-            <NavLink
-              to="/forgot-password"
-              className={cn(
-                buttonVariants({
-                  variant: "ghost-link",
-                }),
-              )}
-            >
-              Click here
-            </NavLink>
-          </p>
+        <div className="flex items-center justify-end -mt-1.5">
+          <NavLink
+            to="/forgot-password"
+            className={cn(
+              "text-muted-foreground text-sm",
+              buttonVariants({
+                variant: "ghost-link",
+              }),
+            )}
+          >
+            Forgot Password?
+          </NavLink>
         </div>
 
-        <div className="w-full flex items-center justify-end">
-          <Button type="submit">Sign In</Button>
+        <div className="w-full flex items-center justify-end mt-5">
+          <Button type="submit" className="group w-full">
+            Sign In
+            <ArrowRight className="transform transition-transform group-hover:translate-x-0.5" />
+          </Button>
         </div>
       </form>
     </Form>
