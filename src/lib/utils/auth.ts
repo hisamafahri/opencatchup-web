@@ -1,5 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 import type {
+  ForgetPasswordBody,
+  ResetPasswordBody,
   SignInWithEmailBody,
   SignUpWithEmailBody,
 } from "../services/api/auth/types";
@@ -83,12 +85,22 @@ export const signOut = async () => authClient.signOut();
 export const forgetPassword = async ({
   email,
   captchaToken,
-}: SignUpWithEmailBody) =>
+}: ForgetPasswordBody) =>
   authClient.forgetPassword({
     email,
+    redirectTo: "/reset-password",
     fetchOptions: {
       headers: {
         "x-captcha-response": captchaToken,
       },
     },
+  });
+
+export const resetPassword = async ({
+  newPassword,
+  token,
+}: ResetPasswordBody) =>
+  authClient.resetPassword({
+    newPassword,
+    token,
   });

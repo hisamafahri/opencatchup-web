@@ -4,7 +4,7 @@ import { buttonVariants } from "~/components/ui/button";
 import EmailForm from "./_components/EmailForm";
 import OAuthForm from "./_components/OAuthForm";
 import { useQueryState } from "nuqs";
-import { EmailSent, EmailVerified } from "../_components/EmailState";
+import { EmailSent, EmailVerified } from "../_components/QueryState";
 
 const AuthRegister = () => {
   const [state] = useQueryState("state");

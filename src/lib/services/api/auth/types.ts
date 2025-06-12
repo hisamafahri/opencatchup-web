@@ -16,3 +16,17 @@ export const signUpWithEmailBody = z.object({
 });
 
 export type SignUpWithEmailBody = z.infer<typeof signUpWithEmailBody>;
+
+export const forgetPasswordBody = z.object({
+  email: z.string().email(),
+  captchaToken: z.string(),
+});
+
+export type ForgetPasswordBody = z.infer<typeof forgetPasswordBody>;
+
+export const resetPasswordBody = z.object({
+  newPassword: z.string().min(8),
+  token: z.string(),
+});
+
+export type ResetPasswordBody = z.infer<typeof resetPasswordBody>;

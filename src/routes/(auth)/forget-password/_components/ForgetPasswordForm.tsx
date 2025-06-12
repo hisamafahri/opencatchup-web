@@ -1,7 +1,7 @@
 import { useForm, useWatch } from "react-hook-form";
 import Turnstile, { useTurnstile } from "react-turnstile";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,34 +11,30 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { NavLink, useNavigate } from "react-router";
-import { cn } from "~/lib/utils";
 import { ArrowRight, Loader2 } from "lucide-react";
 import {
-  signInWithEmailBody,
-  type SignInWithEmailBody,
+  forgetPasswordBody,
+  type ForgetPasswordBody,
 } from "~/lib/services/api/auth/types";
 import { useMutation } from "@tanstack/react-query";
-import { signInWithEmail } from "~/lib/utils/auth";
+import { forgetPassword } from "~/lib/utils/auth";
 import { useQueryState } from "nuqs";
 
-const EmailForm = () => {
-  const navigate = useNavigate();
+const ForgetPasswordForm = () => {
   const turnstile = useTurnstile();
   const [, setState] = useQueryState("state");
 
-  const form = useForm<SignInWithEmailBody>({
-    resolver: zodResolver(signInWithEmailBody),
+  const form = useForm<ForgetPasswordBody>({
+    resolver: zodResolver(forgetPasswordBody),
     defaultValues: {
       email: "",
-      password: "",
       captchaToken: "",
     },
   });
 
-  const signInWithEmailMutation = useMutation({
-    mutationKey: ["signInWithEmailMutation"],
-    mutationFn: signInWithEmail,
+  const forgetPasswordMutation = useMutation({
+    mutationKey: ["forgotPasswordMutation"],
+    mutationFn: forgetPassword,
     onSettled: (data) => {
       if (!data || data.error || !data.data) {
         if (data?.error.message?.toLowerCase().includes("captcha")) {
@@ -54,17 +50,13 @@ const EmailForm = () => {
             type: "value",
             message: data?.error?.message || "Invalid email or password",
           });
-          form.setError("password", {
-            type: "value",
-            message: data?.error?.message || "Invalid email or password",
-          });
         }
 
         turnstile.reset();
         return;
       }
 
-      navigate("/");
+      setState("email_sent");
     },
   });
 
@@ -73,8 +65,8 @@ const EmailForm = () => {
     name: "captchaToken",
   });
 
-  const onSubmit = (values: SignInWithEmailBody) => {
-    signInWithEmailMutation.mutate(values);
+  const onSubmit = (values: ForgetPasswordBody) => {
+    forgetPasswordMutation.mutate(values);
   };
 
   return (
@@ -91,7 +83,7 @@ const EmailForm = () => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Your email address"
+                  placeholder="Your registered email address"
                   type="email"
                   {...field}
                 />
@@ -100,34 +92,6 @@ const EmailForm = () => {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Your password" type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex items-center justify-end -mt-1.5">
-          <NavLink
-            to="/forget-password"
-            className={cn(
-              "text-muted-foreground text-sm",
-              buttonVariants({
-                variant: "ghost-link",
-              }),
-            )}
-          >
-            Forget Password?
-          </NavLink>
-        </div>
 
         <FormField
           control={form.control}
@@ -151,10 +115,10 @@ const EmailForm = () => {
           <Button
             type="submit"
             className="group w-full"
-            disabled={!captchaToken || signInWithEmailMutation.isPending}
+            disabled={!captchaToken || forgetPasswordMutation.isPending}
           >
-            Login
-            {signInWithEmailMutation.isPending ? (
+            Send Reset Link
+            {forgetPasswordMutation.isPending ? (
               <Loader2 className="animate-spin" />
             ) : (
               <ArrowRight className="transform transition-transform group-hover:translate-x-0.5" />
@@ -166,4 +130,4 @@ const EmailForm = () => {
   );
 };
 
-export default EmailForm;
+export default ForgetPasswordForm;
