@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
-import Turnstile from "react-turnstile";
+import { useForm, useWatch } from "react-hook-form";
+import Turnstile, { useTurnstile } from "react-turnstile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "~/components/ui/button";
 import {
@@ -11,15 +11,19 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import {
   signUpWithEmailBody,
   type SignUpWithEmailBody,
 } from "~/lib/services/api/auth/types";
 import { useMutation } from "@tanstack/react-query";
 import { signUpWithEmail } from "~/lib/utils/auth";
+import { useQueryState } from "nuqs";
 
 const EmailForm = () => {
+  const turnstile = useTurnstile();
+  const [, setState] = useQueryState("state");
+
   const form = useForm<SignUpWithEmailBody>({
     resolver: zodResolver(signUpWithEmailBody),
     defaultValues: {
@@ -33,6 +37,36 @@ const EmailForm = () => {
   const signUpWithEmailMutation = useMutation({
     mutationKey: ["signUpWithEmailMutation"],
     mutationFn: signUpWithEmail,
+    onSettled: (data) => {
+      if (!data || data.error || !data.data) {
+        if (data?.error.message?.toLowerCase().includes("captcha")) {
+          form.setError("captchaToken", {
+            type: "value",
+            message: data?.error?.message || "Invalid captcha token",
+          });
+          return;
+        } else {
+          form.setError("email", {
+            type: "value",
+            message: data?.error?.message || "Invalid email or password",
+          });
+          form.setError("password", {
+            type: "value",
+            message: data?.error?.message || "Invalid email or password",
+          });
+        }
+
+        turnstile.reset();
+        return;
+      }
+
+      setState("email_sent");
+    },
+  });
+
+  const captchaToken = useWatch({
+    control: form.control,
+    name: "captchaToken",
   });
 
   const onSubmit = (values: SignUpWithEmailBody) => {
@@ -91,17 +125,36 @@ const EmailForm = () => {
           )}
         />
 
-        <Turnstile
-          sitekey={import.meta.env.VITE_PUBLIC_TURNSTILE_KEY}
-          onVerify={(token) => {
-            form.setValue("captchaToken", token);
-          }}
+        <FormField
+          control={form.control}
+          name="captchaToken"
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <Turnstile
+                  sitekey={import.meta.env.VITE_PUBLIC_TURNSTILE_KEY}
+                  onVerify={(token) => {
+                    form.setValue("captchaToken", token);
+                  }}
+                />
+              </FormControl>
+              <FormMessage className="-mt-3" />
+            </FormItem>
+          )}
         />
 
         <div className="w-full flex items-center justify-end mt-5">
-          <Button type="submit" className="group w-full">
+          <Button
+            type="submit"
+            className="group w-full"
+            disabled={!captchaToken || signUpWithEmailMutation.isPending}
+          >
             Register
-            <ArrowRight className="transform transition-transform group-hover:translate-x-0.5" />
+            {signUpWithEmailMutation.isPending ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <ArrowRight className="transform transition-transform group-hover:translate-x-0.5" />
+            )}
           </Button>
         </div>
       </form>
