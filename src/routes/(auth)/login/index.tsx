@@ -3,8 +3,8 @@ import EmailForm from "./_components/EmailForm";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
 import OAuthForm from "./_components/OAuthForm";
-import { Inbox } from "lucide-react";
 import { useQueryState } from "nuqs";
+import { EmailSent, EmailVerified } from "../_components/EmailState";
 
 const AuthLogin = () => {
   const [state] = useQueryState("state");
@@ -15,30 +15,9 @@ const AuthLogin = () => {
         <div />
         <div className="max-w-lg w-full">
           {state === "email_sent" ? (
-            <div className="flex flex-col items-center justify-center">
-              <Inbox className="text-lg text-muted-foreground mb-4" />
-              <h1 className="text-xl font-medium text-foreground text-center">
-                Check Your Email Inbox!
-              </h1>
-              <p className="text-muted-foreground text-sm text-center">
-                We've sent a verification link to your email. Please follow the
-                instructions to complete the process.
-              </p>
-              <p className="text-muted-foreground text-sm mt-8 text-center">
-                Ready to continue?{" "}
-                <NavLink
-                  to="/login"
-                  className={cn(
-                    "text-muted-foreground",
-                    buttonVariants({
-                      variant: "ghost-link",
-                    }),
-                  )}
-                >
-                  Login
-                </NavLink>
-              </p>
-            </div>
+            <EmailSent />
+          ) : state === "email_verified" ? (
+            <EmailVerified />
           ) : (
             <>
               <h1 className="text-xl font-medium text-foreground text-center mb-9">

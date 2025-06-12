@@ -20,6 +20,7 @@ export const signInWithEmail = async ({
     email,
     password,
     rememberMe: true,
+    callbackURL: window.location.origin + "/login?state=email_verified",
     fetchOptions: {
       headers: {
         "x-captcha-response": captchaToken,
@@ -53,6 +54,7 @@ export const signUpWithEmail = async ({
     name,
     email,
     password,
+    callbackURL: window.location.origin + "/register?state=email_verified",
     fetchOptions: {
       headers: {
         "x-captcha-response": captchaToken,
@@ -77,3 +79,16 @@ export const signUpWithMicrosoft = async () =>
   });
 
 export const signOut = async () => authClient.signOut();
+
+export const forgetPassword = async ({
+  email,
+  captchaToken,
+}: SignUpWithEmailBody) =>
+  authClient.forgetPassword({
+    email,
+    fetchOptions: {
+      headers: {
+        "x-captcha-response": captchaToken,
+      },
+    },
+  });
