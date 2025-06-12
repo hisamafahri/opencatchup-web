@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import Turnstile from "react-turnstile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, buttonVariants } from "~/components/ui/button";
 import z from "zod";
@@ -86,12 +85,14 @@ const EmailForm = () => {
           </NavLink>
         </div>
 
+        {/*
         <Turnstile
           sitekey={import.meta.env.VITE_PUBLIC_TURNSTILE_KEY}
           onVerify={(token) => {
             console.log("[TURNSTILE]", token);
           }}
         />
+        */}
 
         <div className="w-full flex items-center justify-end mt-5">
           <Button type="submit" className="group w-full">
