@@ -4,6 +4,7 @@ import DashboardTemplate from "~/routes/(dashboard)/template";
 import Home from "~/routes/(dashboard)";
 import AuthLogin from "./routes/(auth)/login";
 import AuthRegister from "./routes/(auth)/register";
+import AuthForgotPassword from "./routes/(auth)/forgot-password";
 
 const Routes = () => {
   return (
@@ -11,6 +12,7 @@ const Routes = () => {
       <Route element={<AuthTemplate />}>
         <Route path="/login" element={<AuthLogin />} />
         <Route path="/register" element={<AuthRegister />} />
+        <Route path="/forgot-password" element={<AuthForgotPassword />} />
       </Route>
 
       <Route element={<DashboardTemplate />}>
