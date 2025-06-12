@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import Turnstile from "react-turnstile";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,33 +11,32 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { NavLink } from "react-router";
-import { cn } from "~/lib/utils";
 import { ArrowRight } from "lucide-react";
 import {
-  signInWithEmailBody,
-  type SignInWithEmailBody,
+  signUpWithEmailBody,
+  type SignUpWithEmailBody,
 } from "~/lib/services/api/auth/types";
 import { useMutation } from "@tanstack/react-query";
-import { signInWithEmail } from "~/lib/utils/auth";
+import { signUpWithEmail } from "~/lib/utils/auth";
 
 const EmailForm = () => {
-  const form = useForm<SignInWithEmailBody>({
-    resolver: zodResolver(signInWithEmailBody),
+  const form = useForm<SignUpWithEmailBody>({
+    resolver: zodResolver(signUpWithEmailBody),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       captchaToken: "",
     },
   });
 
-  const signInWithEmailMutation = useMutation({
-    mutationKey: ["signInWithEmailMutation"],
-    mutationFn: signInWithEmail,
+  const signUpWithEmailMutation = useMutation({
+    mutationKey: ["signUpWithEmailMutation"],
+    mutationFn: signUpWithEmail,
   });
 
-  const onSubmit = (values: SignInWithEmailBody) => {
-    signInWithEmailMutation.mutate(values);
+  const onSubmit = (values: SignUpWithEmailBody) => {
+    signUpWithEmailMutation.mutate(values);
   };
 
   return (
@@ -46,6 +45,20 @@ const EmailForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-3 w-full mt-4"
       >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Full Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your full name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="email"
@@ -78,20 +91,6 @@ const EmailForm = () => {
           )}
         />
 
-        <div className="flex items-center justify-end -mt-1.5">
-          <NavLink
-            to="/forgot-password"
-            className={cn(
-              "text-muted-foreground text-sm",
-              buttonVariants({
-                variant: "ghost-link",
-              }),
-            )}
-          >
-            Forgot Password?
-          </NavLink>
-        </div>
-
         <Turnstile
           sitekey={import.meta.env.VITE_PUBLIC_TURNSTILE_KEY}
           onVerify={(token) => {
@@ -101,7 +100,7 @@ const EmailForm = () => {
 
         <div className="w-full flex items-center justify-end mt-5">
           <Button type="submit" className="group w-full">
-            Login
+            Register
             <ArrowRight className="transform transition-transform group-hover:translate-x-0.5" />
           </Button>
         </div>

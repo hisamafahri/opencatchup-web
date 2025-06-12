@@ -10,7 +10,7 @@ const AuthLogin = () => {
       <div className="flex-1 flex flex-col items-center justify-between">
         <div />
         <div className="max-w-lg w-full">
-          <h1 className="text-xl font-medium text-foreground">
+          <h1 className="text-xl font-medium text-foreground text-center mb-9">
             Login to OpenCatchup!
           </h1>
           <EmailForm />

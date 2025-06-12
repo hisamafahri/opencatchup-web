@@ -1,6 +1,8 @@
 import { NavLink } from "react-router";
 import { cn } from "~/lib/utils";
 import { buttonVariants } from "~/components/ui/button";
+import EmailForm from "./_components/EmailForm";
+import OAuthForm from "./_components/OAuthForm";
 
 const AuthRegister = () => {
   return (
@@ -8,10 +10,11 @@ const AuthRegister = () => {
       <div className="flex-1 flex flex-col items-center justify-between">
         <div />
         <div className="max-w-lg w-full">
-          <h1 className="text-xl font-medium text-foreground">
+          <h1 className="text-xl font-medium text-foreground text-center mb-9">
             Register to OpenCatchup!
           </h1>
-          <p className="text-muted-foreground">Register Form</p>
+          <EmailForm />
+          <OAuthForm />
           <p className="text-muted-foreground text-sm mt-8 text-center">
             Already an account?{" "}
             <NavLink

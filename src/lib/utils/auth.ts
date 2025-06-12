@@ -1,4 +1,8 @@
 import { createAuthClient } from "better-auth/react";
+import type {
+  SignInWithEmailBody,
+  SignUpWithEmailBody,
+} from "../services/api/auth/types";
 
 export const authClient = createAuthClient({
   basePath: "/auth",
@@ -6,6 +10,22 @@ export const authClient = createAuthClient({
 });
 
 export const useSession = authClient.useSession;
+
+export const signInWithEmail = async ({
+  email,
+  password,
+  captchaToken,
+}: SignInWithEmailBody) =>
+  authClient.signIn.email({
+    email,
+    password,
+    rememberMe: true,
+    fetchOptions: {
+      headers: {
+        "x-captcha-response": captchaToken,
+      },
+    },
+  });
 
 export const signInWithGoogle = async () =>
   authClient.signIn.social({
@@ -23,6 +43,23 @@ export const signInWithMicrosoft = async () =>
     errorCallbackURL: window.location.origin + "/login",
   });
 
+export const signUpWithEmail = async ({
+  name,
+  email,
+  password,
+  captchaToken,
+}: SignUpWithEmailBody) =>
+  authClient.signUp.email({
+    name,
+    email,
+    password,
+    fetchOptions: {
+      headers: {
+        "x-captcha-response": captchaToken,
+      },
+    },
+  });
+
 export const signUpWithGoogle = async () =>
   authClient.signIn.social({
     callbackURL: window.location.origin,
@@ -38,3 +75,5 @@ export const signUpWithMicrosoft = async () =>
     requestSignUp: true,
     errorCallbackURL: window.location.origin + "/register",
   });
+
+export const signOut = async () => authClient.signOut();
