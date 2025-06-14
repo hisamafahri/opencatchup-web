@@ -52,7 +52,10 @@ const UserDropdown = () => {
           </NavLink>
         </DropdownMenuItem>
         <DropdownMenuItem className="group cursor-pointer" asChild>
-          <NavLink to="https://opencatchup.com/opencatchup" target="_blank">
+          <NavLink
+            to={`https://opencatchup.com/${data?.user.username}`}
+            target="_blank"
+          >
             <Link />
             Open My Link
             <ArrowUpRight className="size-3.5 ml-auto transform transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

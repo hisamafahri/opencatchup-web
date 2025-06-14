@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const signInWithEmailBody = z.object({
-  email: z.string().email(),
+  email: z.string().email().max(64),
   password: z.string().min(8),
   captchaToken: z.string(),
 });
@@ -18,7 +18,7 @@ export const signUpWithEmailBody = z.object({
 export type SignUpWithEmailBody = z.infer<typeof signUpWithEmailBody>;
 
 export const forgetPasswordBody = z.object({
-  email: z.string().email(),
+  email: z.string().email().max(64),
   captchaToken: z.string(),
 });
 
