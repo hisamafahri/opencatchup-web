@@ -5,7 +5,7 @@ const Loading = ({ fullScreen = false }: { fullScreen?: boolean }) => {
   return (
     <section
       className={cn(
-        "h-full flex items-center justify-center",
+        "flex-1 h-full flex items-center justify-center",
         fullScreen && "min-h-screen",
       )}
     >

@@ -1,11 +1,14 @@
 import { Routes as LibRoutes, Route } from "react-router";
 import AuthTemplate from "~/routes/(auth)/template";
 import DashboardTemplate from "~/routes/(dashboard)/template";
-import Home from "~/routes/(dashboard)";
 import AuthLogin from "./routes/(auth)/login";
 import AuthRegister from "./routes/(auth)/register";
 import AuthForgetPassword from "./routes/(auth)/forget-password";
 import AuthResetPassword from "./routes/(auth)/reset-password";
+import Home from "./routes/(dashboard)/(bookings)";
+import EventOptions from "./routes/(dashboard)/options";
+import Availabilities from "./routes/(dashboard)/availabilities";
+import Settings from "./routes/(dashboard)/settings";
 
 const Routes = () => {
   return (
@@ -19,6 +22,9 @@ const Routes = () => {
 
       <Route element={<DashboardTemplate />}>
         <Route index element={<Home />} />
+        <Route path="/event-options" element={<EventOptions />} />
+        <Route path="/availabilities" element={<Availabilities />} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
 
       <Route path="*" element={<p>Not found!</p>} />
