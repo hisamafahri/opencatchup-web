@@ -19,7 +19,7 @@ const OAuthForm = () => {
       <div className="flex w-full gap-3">
         <Button variant="outline" className="flex-1" onClick={signUpWithGoogle}>
           <Icons.Google />
-          Continue with Google
+          Register with Google
         </Button>
         <Button
           variant="outline"
@@ -27,7 +27,7 @@ const OAuthForm = () => {
           onClick={signInWithMicrosoft}
         >
           <Icons.Microsoft />
-          Continue with Microsoft
+          Register with Microsoft
         </Button>
       </div>
     </div>

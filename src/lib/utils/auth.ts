@@ -1,14 +1,17 @@
 import { createAuthClient } from "better-auth/react";
+import { usernameClient } from "better-auth/client/plugins";
 import type {
   ForgetPasswordBody,
   ResetPasswordBody,
   SignInWithEmailBody,
   SignUpWithEmailBody,
 } from "../services/api/auth/types";
+import { normalizeEmail } from "./string";
 
 export const authClient = createAuthClient({
   basePath: "/auth",
   baseURL: import.meta.env.VITE_PUBLIC_API_URL,
+  plugins: [usernameClient()],
 });
 
 export const useSession = authClient.useSession;
@@ -56,6 +59,7 @@ export const signUpWithEmail = async ({
     name,
     email,
     password,
+    username: normalizeEmail(email, "email_"),
     callbackURL: window.location.origin + "/register?state=email_verified",
     fetchOptions: {
       headers: {
