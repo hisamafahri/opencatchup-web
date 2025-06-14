@@ -1,7 +1,6 @@
 import { NavLink, useLocation } from "react-router";
 import { Icons } from "~/components/icons";
 import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
 import UserDropdown from "./UserDropdown";
 
 type NavBarItemProps = {
@@ -13,12 +12,7 @@ const NavBarItem = ({ title, to }: NavBarItemProps) => {
   const isActive = loc.pathname === to;
 
   return (
-    <Button
-      asChild
-      size="sm"
-      variant={isActive ? "secondary" : "ghost"}
-      className={cn(isActive)}
-    >
+    <Button asChild size="sm" variant={isActive ? "secondary" : "ghost"}>
       <NavLink to={to}>{title}</NavLink>
     </Button>
   );

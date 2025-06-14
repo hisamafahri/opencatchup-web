@@ -46,7 +46,7 @@ const UserDropdown = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)]">
         <DropdownMenuItem asChild>
-          <NavLink to="/settings">
+          <NavLink to="/settings/account">
             <Settings />
             Settings
           </NavLink>
