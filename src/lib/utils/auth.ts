@@ -12,6 +12,16 @@ export const authClient = createAuthClient({
   basePath: "/auth",
   baseURL: import.meta.env.VITE_PUBLIC_API_URL,
   plugins: [usernameClient()],
+  fetchOptions: {
+    jsonParser: (text) => {
+      const res = JSON.parse(text);
+      if (res?.success !== undefined) {
+        return res?.data;
+      } else {
+        return res;
+      }
+    },
+  },
 });
 
 export const useSession = authClient.useSession;

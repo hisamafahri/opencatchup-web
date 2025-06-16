@@ -22,7 +22,7 @@ const NavBar = () => {
   return (
     <nav className="h-12 border-b border-border flex items-center">
       <div className="max-w-7xl w-full mx-auto flex items-center h-full">
-        <NavLink to="/" className="mr-8">
+        <NavLink to="/" className="mr-8 ml-3">
           <Icons.Logo className="h-5 w-min" />
         </NavLink>
 

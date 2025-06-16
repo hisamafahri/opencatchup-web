@@ -23,7 +23,7 @@ const UserDropdown = () => {
 
   if (isPending) {
     return (
-      <div className="flex items-center space-x-3 w-48">
+      <div className="flex items-center space-x-3 w-48 mr-3">
         <div className="space-y-1 flex-1">
           <Skeleton className="h-3.5 w-full" />
           <Skeleton className="h-2.5 w-full" />
